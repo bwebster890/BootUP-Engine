@@ -5,7 +5,6 @@
 #include "RenderSystem.hpp"
 #include "Camera.hpp"
 #include "ShaderProgram.hpp"
-#include "Component.hpp"
 
 int main()
 {
@@ -34,13 +33,15 @@ int main()
 	State state;
 	state.SetSystem(&render);
 	
-	state.AddComponent("player", new Position(200.0, 250.0, 0.0));
-	state.AddComponent("player", new Rect(100.0, 100.0));
-	state.AddComponent("player", new Texture("images/test.png"));
+	state.AddComponent("player1", new Position(200.0, 250.0, 0.0));
+	state.AddComponent("player1", new Rect(100.0, 100.0));
+	state.AddComponent("player1", new Texture("images/test.png"));
 
 	state.AddComponent("player2", new Position(500.0, 250.0, 0.0));
 	state.AddComponent("player2", new Rect(100.0, 100.0));
 	state.AddComponent("player2", new Texture("images/test2.png"));
+
+	state.RemoveComponent("player1", COMP_POS);
 
 	while (!glfwWindowShouldClose(window))
 	{

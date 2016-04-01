@@ -48,7 +48,7 @@ void RenderSystem::Update()
 		}
 	}
 }
-void RenderSystem::AddComponent(std::string entity, Component* component)
+void RenderSystem::AddComponent(Component* component)
 {
 	components.push_back(component);
 

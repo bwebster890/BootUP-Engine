@@ -4,7 +4,6 @@
 #include <glew/glew.h>
 #include <string>
 #include <vector>
-#include <map>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -17,8 +16,6 @@
 class RenderSystem : public System
 {
 private:
-	std::vector <Component*> components;
-
 	glm::mat4 m_mvp;
 	int m_uniformLoc;
 
@@ -33,7 +30,7 @@ public:
 	~RenderSystem();
 
 	void Update();
-	void AddComponent(std::string, Component*);
+	void AddComponent(Component*);
 	void SetCamera(Camera*);
 	void SetShaderProgram(ShaderProgram*);
 };

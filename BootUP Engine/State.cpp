@@ -6,12 +6,10 @@ State::State()
 }
 State::~State()
 {
-	for (std::map <std::string, std::map<unsigned, Component*>>::iterator i = components.begin(); i != components.end(); i++)
+	for (unsigned i = 0; i < components.size(); i++)
 	{
-		for (int j = 0; j < components[i->first].size(); j++)
-		{
-			delete components[i->first][j];
-		}
+		delete (components[i]);
+		components.erase(components.begin() + i);
 	}
 }
 
@@ -40,24 +38,48 @@ void State::DisableSystem(unsigned id)
 
 void State::AddComponent(std::string entity, Component* component)
 {
-	components[entity][component->id] = component;
+	component->entity = entity;
+	components.push_back(component);
 
 	if (component->id == COMP_POS)
 	{
-		m_render->AddComponent(entity, component);
+		m_render->AddComponent(component);
 	}
 
 	if (component->id == COMP_RECT)
 	{
-		m_render->AddComponent(entity, component);
+		m_render->AddComponent(component);
 	}
 
 	if (component->id == COMP_TEXTURE)
 	{
-		m_render->AddComponent(entity, component);
+		m_render->AddComponent(component);
 	}
 }
-Component* State::GetComponent(std::string entity, unsigned id)
+
+void State::RemoveComponent(std::string entity, unsigned id)
 {
-	return components[entity][id];
+	for (unsigned i = 0; i < components.size(); i++)
+	{
+		if (components[i]->entity == entity && components[i]->id == id)
+		{
+			if (components[i]->id == COMP_POS)
+			{
+				m_render->RemoveComponent(entity, id);
+			}
+
+			if (components[i]->id == COMP_RECT)
+			{
+				m_render->RemoveComponent(entity, id);
+			}
+
+			if (components[i]->id == COMP_TEXTURE)
+			{
+				m_render->RemoveComponent(entity, id);
+			}
+
+			delete components[i];
+			components.erase(components.begin() + i);
+		}
+	}
 }

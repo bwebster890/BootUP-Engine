@@ -5,11 +5,11 @@
 #include "ComponentID.h"
 
 #include <vector>
-#include <fstream>
 
 struct Component
 {
 	unsigned id;
+	std::string entity;
 
 	Component()
 	{
