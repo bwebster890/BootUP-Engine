@@ -34,7 +34,7 @@ int main()
 	state.SetSystem(&render);
 
 	state.AddComponent("player", new Position(200.0, 250.0, 0.0));
-	state.AddComponent("player", new Rect(100.0, 100.0));
+	state.AddComponent("player", new Rect(150.0, 100.0));
 	state.AddComponent("player", new Texture("images/test.png"));
 
 	state.AddComponent("player2", new Position(500.0, 250.0, 0.0));
