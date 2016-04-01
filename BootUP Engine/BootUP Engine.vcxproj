@@ -18,6 +18,25 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BootUP.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ImageLoader.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="State.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="Component.hpp" />
+    <ClInclude Include="ComponentID.h" />
+    <ClInclude Include="ImageLoader.h" />
+    <ClInclude Include="RenderSystem.hpp" />
+    <ClInclude Include="ShaderProgram.hpp" />
+    <ClInclude Include="State.hpp" />
+    <ClInclude Include="System.hpp" />
+    <ClInclude Include="SystemID.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BB6599F4-D538-4FBB-AE89-ED74CA48B9B5}</ProjectGuid>
     <RootNamespace>BootUPEngine</RootNamespace>
@@ -126,25 +145,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Camera.hpp" />
-    <ClInclude Include="Component.hpp" />
-    <ClInclude Include="ComponentID.h" />
-    <ClInclude Include="ImageLoader.h" />
-    <ClInclude Include="RenderSystem.hpp" />
-    <ClInclude Include="ShaderProgram.hpp" />
-    <ClInclude Include="State.hpp" />
-    <ClInclude Include="System.hpp" />
-    <ClInclude Include="SystemID.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ImageLoader.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="RenderSystem.cpp" />
-    <ClCompile Include="ShaderProgram.cpp" />
-    <ClCompile Include="State.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

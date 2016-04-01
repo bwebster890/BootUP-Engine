@@ -2,9 +2,10 @@
 #include <glfw/glfw3.h>
 
 #include "State.hpp"
-#include "System.hpp"
+#include "RenderSystem.hpp"
 #include "Camera.hpp"
 #include "ShaderProgram.hpp"
+#include "Component.hpp"
 
 int main()
 {
@@ -32,7 +33,7 @@ int main()
 
 	State state;
 	state.SetSystem(&render);
-
+	
 	state.AddComponent("player", new Position(200.0, 250.0, 0.0));
 	state.AddComponent("player", new Rect(100.0, 100.0));
 	state.AddComponent("player", new Texture("images/test.png"));
