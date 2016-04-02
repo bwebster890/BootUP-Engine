@@ -15,13 +15,12 @@ State::~State()
 
 void State::Update()
 {
-	m_render->Update();
+	if(m_render->Enabled())
+		m_render->Update();
 }
 
 void State::SetSystem(System* system)
 {
-	system->Enable();
-
 	if (system->GetID() == SYS_RENDER)
 		m_render = dynamic_cast<RenderSystem*>(system);
 }
@@ -56,7 +55,6 @@ void State::AddComponent(std::string entity, Component* component)
 		m_render->AddComponent(component);
 	}
 }
-
 void State::RemoveComponent(std::string entity, unsigned id)
 {
 	for (unsigned i = 0; i < components.size(); i++)
@@ -80,6 +78,30 @@ void State::RemoveComponent(std::string entity, unsigned id)
 
 			delete components[i];
 			components.erase(components.begin() + i);
+		}
+	}
+}
+
+void State::CopyEntity(std::string old_entity, std::string new_entity)
+{
+	for (unsigned i = 0; i < components.size(); i++)
+	{
+		if (components[i]->entity == old_entity)
+		{
+			if (components[i]->id == COMP_POS)
+			{
+				AddComponent(new_entity, new Position(*dynamic_cast<Position*>(components[i])));
+			}
+
+			if (components[i]->id == COMP_RECT)
+			{
+				AddComponent(new_entity, new Rect(*dynamic_cast<Rect*>(components[i])));
+			}
+
+			if (components[i]->id == COMP_TEXTURE)
+			{
+				AddComponent(new_entity, new Texture(*dynamic_cast<Texture*>(components[i])));
+			}
 		}
 	}
 }

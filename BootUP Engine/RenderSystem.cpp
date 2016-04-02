@@ -5,7 +5,7 @@
 RenderSystem::RenderSystem()
 {
 	m_id = SYS_RENDER;
-	m_enabled = false;
+	m_enabled = true;
 }
 RenderSystem::~RenderSystem()
 {
@@ -14,11 +14,11 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::Update()
 {
-	for (std::vector<Component*>::iterator i = components.begin(); i != components.end(); i++)
+	for (unsigned i = 0; i < components.size(); i++)
 	{
-		if ((*i)->id == COMP_POS)
+		if (components[i]->id == COMP_POS)
 		{
-			m_position = dynamic_cast<Position*>(*i);
+			m_position = dynamic_cast<Position*>(components[i]);
 
 			m_mvp = m_camera->get_matrix() * glm::translate(glm::mat4(0.1), glm::vec3(m_position->x, m_position->y, m_position->z));
 
@@ -26,16 +26,16 @@ void RenderSystem::Update()
 			glUniformMatrix4fv(m_uniformLoc, 1, false, &m_mvp[0][0]);
 		}
 
-		if ((*i)->id == COMP_RECT)
+		if (components[i]->id == COMP_RECT)
 		{
-			m_rect = dynamic_cast<Rect*>(*i);
+			m_rect = dynamic_cast<Rect*>(components[i]);
 
 			glBindVertexArray(m_rect->vao);
 		}
 
-		if ((*i)->id == COMP_TEXTURE)
+		if (components[i]->id == COMP_TEXTURE)
 		{
-			m_texture = dynamic_cast<Texture*>(*i);
+			m_texture = dynamic_cast<Texture*>(components[i]);
 
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, m_texture->texture);

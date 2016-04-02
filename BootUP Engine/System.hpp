@@ -33,19 +33,12 @@ public:
 		}
 	}
 
-	void Enable() 
-	{
-		m_enabled = true;
-	}
-	void Disable()
-	{
-		m_enabled = false;
-	}
+	inline void Enable() {m_enabled = true;}
+	inline void Disable(){m_enabled = false;}
 
-	unsigned GetID()
-	{
-		return m_id;
-	}
+	inline bool Enabled(){return m_enabled;}
+
+	inline unsigned GetID(){return m_id;}
 };
 
 #endif//SYSTEM_HPP

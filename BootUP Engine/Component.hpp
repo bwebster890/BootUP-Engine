@@ -5,6 +5,7 @@
 #include "ComponentID.h"
 
 #include <vector>
+#include <algorithm>
 
 struct Component
 {
@@ -93,7 +94,7 @@ struct Rect : public Component
 	}
 	~Rect()
 	{
-		delete vbo;
+		//delete vbo;
 	}
 };
 
@@ -123,7 +124,7 @@ struct Texture : public Component
 	{
 		texture = LoadPNG(path);
 
-		vbo = new unsigned();
+		vbo = new unsigned;
 		id = COMP_TEXTURE;
 
 		coords[0] = 0;
@@ -137,6 +138,17 @@ struct Texture : public Component
 
 		coords[6] = 1;
 		coords[7] = 1;
+	}
+	Texture(const Texture& tex)
+	{
+		texture = tex.texture;
+
+		for (int i = 0; i < 8; i++)
+			coords[i] = tex.coords[i];
+
+		vbo = new unsigned;
+
+		id = COMP_TEXTURE;
 	}
 	~Texture()
 	{

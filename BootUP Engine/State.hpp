@@ -24,6 +24,8 @@ public:
 
 	void AddComponent(std::string, Component*);
 	void RemoveComponent(std::string, unsigned);
+
+	void CopyEntity(std::string, std::string);
 };
 
 #endif//STATE_HPP

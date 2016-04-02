@@ -16,9 +16,12 @@
 class RenderSystem : public System
 {
 private:
+	//model view projection matrix
 	glm::mat4 m_mvp;
+	//id of the current uniform location
 	int m_uniformLoc;
 
+	//components used in Update
 	Position* m_position;
 	Rect* m_rect;
 	Texture* m_texture;
