@@ -55,6 +55,31 @@ void State::AddComponent(std::string entity, Component* component)
 		m_render->AddComponent(component);
 	}
 }
+void State::ChangeComponent(std::string entity, Component* component)
+{
+	component->entity = entity;
+
+	for (unsigned i = 0; i < components.size(); i++)
+	{
+		if (components[i]->entity == entity && components[i]->id == component->id)
+			components[i] = component;
+	}
+
+	if (component->id == COMP_POS)
+	{
+		m_render->ChangeComponent(entity, component);
+	}
+
+	if (component->id == COMP_RECT)
+	{
+		m_render->ChangeComponent(entity, component);
+	}
+
+	if (component->id == COMP_TEXTURE)
+	{
+		m_render->ChangeComponent(entity, component);
+	}
+}
 void State::RemoveComponent(std::string entity, unsigned id)
 {
 	for (unsigned i = 0; i < components.size(); i++)
@@ -103,5 +128,33 @@ void State::CopyEntity(std::string old_entity, std::string new_entity)
 				AddComponent(new_entity, new Texture(*dynamic_cast<Texture*>(components[i])));
 			}
 		}
+	}
+}
+void State::RemoveEntity(std::string entity)
+{
+	for (unsigned i = 0; i < components.size();)
+	{
+		if (components[i]->entity == entity)
+		{
+			if (components[i]->id == COMP_POS)
+			{
+				m_render->RemoveComponent(entity, components[i]->id);
+			}
+
+			if (components[i]->id == COMP_RECT)
+			{
+				m_render->RemoveComponent(entity, components[i]->id);
+			}
+
+			if (components[i]->id == COMP_TEXTURE)
+			{
+				m_render->RemoveComponent(entity, components[i]->id);
+			}
+
+			delete components[i];
+			components.erase(components.begin() + i);
+		}
+		else
+			++i;
 	}
 }

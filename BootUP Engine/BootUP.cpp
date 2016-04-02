@@ -54,10 +54,11 @@ int main()
 
 	//test entity: player3
 	state->CopyEntity("player1", "player3");
+	state->ChangeComponent("player3", new Position(50.0, 50.0, 0.0));
 
-	state->RemoveComponent("player1", COMP_POS);
-	state->RemoveComponent("player1", COMP_RECT);
-	state->RemoveComponent("player1", COMP_TEXTURE);
+	//remove player 1 and all it's components
+	state->RemoveEntity("player1");
+
 
 	//game loop
 	while (!glfwWindowShouldClose(window))

@@ -49,7 +49,7 @@ struct Rect : public Component
 
 	Rect()
 	{
-		vbo = new unsigned();
+		vbo = new unsigned;
 
 		glGenVertexArrays(1, &vao);
 		id = COMP_RECT;
@@ -72,7 +72,7 @@ struct Rect : public Component
 	}
 	Rect(float w, float h)
 	{
-		vbo = new unsigned();
+		vbo = new unsigned;
 
 		glGenVertexArrays(1, &vao);
 		id = COMP_RECT;

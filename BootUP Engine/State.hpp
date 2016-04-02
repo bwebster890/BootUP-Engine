@@ -23,9 +23,11 @@ public:
 	void DisableSystem(unsigned);
 
 	void AddComponent(std::string, Component*);
+	void ChangeComponent(std::string, Component*);
 	void RemoveComponent(std::string, unsigned);
 
 	void CopyEntity(std::string, std::string);
+	void RemoveEntity(std::string);
 };
 
 #endif//STATE_HPP

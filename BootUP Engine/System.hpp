@@ -22,6 +22,17 @@ public:
 
 	virtual void Update() = 0{}
 	virtual void AddComponent(Component* component) = 0{}
+	void ChangeComponent(std::string entity, Component* component)
+	{
+		for (int i = 0; i < components.size(); i++)
+		{
+			if (components[i]->entity == entity && components[i]->id == component->id)
+			{
+				delete components[i];
+				components[i] = component;
+			}
+		}
+	}
 	void RemoveComponent(std::string entity, unsigned id)
 	{
 		for (unsigned i = 0; i < components.size(); i++)
