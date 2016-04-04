@@ -5,7 +5,6 @@
 #include "ComponentID.h"
 
 #include <vector>
-#include <algorithm>
 
 struct Component
 {
@@ -45,12 +44,10 @@ struct Position : public Component
 struct Rect : public Component
 {
 	float w, h, rect[8];
-	unsigned *vbo, vao;
+	unsigned vbo, vao;
 
 	Rect()
 	{
-		vbo = new unsigned;
-
 		glGenVertexArrays(1, &vao);
 		id = COMP_RECT;
 
@@ -72,8 +69,6 @@ struct Rect : public Component
 	}
 	Rect(float w, float h)
 	{
-		vbo = new unsigned;
-
 		glGenVertexArrays(1, &vao);
 		id = COMP_RECT;
 
@@ -92,20 +87,16 @@ struct Rect : public Component
 		rect[6] = w;
 		rect[7] = 0;
 	}
-	~Rect()
-	{
-		//delete vbo;
-	}
+	~Rect(){}
 };
 
 struct Texture : public Component
 {
 	float coords[8];
-	unsigned texture, *vbo;
+	unsigned texture, vbo;
 
 	Texture()
 	{
-		vbo = new unsigned;
 		id = COMP_TEXTURE;
 
 		coords[0] = 0;
@@ -123,8 +114,6 @@ struct Texture : public Component
 	Texture(std::string path)
 	{
 		texture = LoadPNG(path);
-
-		vbo = new unsigned;
 		id = COMP_TEXTURE;
 
 		coords[0] = 0;
@@ -146,14 +135,9 @@ struct Texture : public Component
 		for (int i = 0; i < 8; i++)
 			coords[i] = tex.coords[i];
 
-		vbo = new unsigned;
-
 		id = COMP_TEXTURE;
 	}
-	~Texture()
-	{
-		delete vbo;
-	}
+	~Texture(){}
 };
 
 #endif//COMPONENT_HPP

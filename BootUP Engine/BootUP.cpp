@@ -41,7 +41,7 @@ int main()
 
 	//link the render system to the render system in state
 	state->SetSystem(render);
-	
+
 	//test entity: player1
 	state->AddComponent("player1", new Position(200.0, 250.0, 0.0));
 	state->AddComponent("player1", new Rect(100.0, 100.0));

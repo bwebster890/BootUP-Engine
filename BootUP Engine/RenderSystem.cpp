@@ -60,9 +60,9 @@ void RenderSystem::AddComponent(Component* component)
 
 		glBindVertexArray(m_rect->vao);
 
-		glGenBuffers(1, m_rect->vbo);
+		glGenBuffers(1, &m_rect->vbo);
 
-		glBindBuffer(GL_ARRAY_BUFFER, *m_rect->vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, m_rect->vbo);
 		glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(GLfloat), m_rect->rect, GL_STATIC_DRAW);
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -73,9 +73,9 @@ void RenderSystem::AddComponent(Component* component)
 	{
 		m_texture = dynamic_cast<Texture*>(component);
 
-		glGenBuffers(1, m_texture->vbo);
+		glGenBuffers(1, &m_texture->vbo);
 
-		glBindBuffer(GL_ARRAY_BUFFER, *m_texture->vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, m_texture->vbo);
 		glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(GLfloat), m_texture->coords, GL_STATIC_DRAW);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
