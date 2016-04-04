@@ -71,7 +71,6 @@ void State::AddComponent(std::string entity, Component* component)
 }
 void State::ChangeComponent(std::string entity, Component* component)
 {
-	this->CheckComponents(entity);
 	component->entity = entity;
 
 	for (unsigned i = 0; i < components.size(); i++)
@@ -192,12 +191,4 @@ void State::RemoveEntity(std::string entity)
 		else
 			++i;
 	}
-}
-
-void State::CheckComponents(std::string entity)
-{
-	std::cout << "Render System: " << std::endl;
-	m_render->CheckComponents(entity);
-	std::cout << "Physics System: " << std::endl;
-	m_physics->CheckComponents(entity);
 }

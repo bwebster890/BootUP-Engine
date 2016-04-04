@@ -55,7 +55,7 @@ struct Rect : public Component
 		h = 100;
 
 		rect[0] = 0;
-		rect[1] = h-20;
+		rect[1] = h;
 
 		rect[2] = 0;
 		rect[3] = 0;

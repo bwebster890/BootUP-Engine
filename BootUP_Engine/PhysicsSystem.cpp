@@ -18,8 +18,8 @@ void PhysicsSystem::Update()
 	{
 		if (components[i]->id == COMP_GRAVITY)
 		{
-			// m_position is null incase it has gravity but no position.
 			m_position = nullptr;
+
 			// Set entity string to make sure the system updates the right entities position
 			std::string myEntity = components[i]->entity;
 			for (unsigned j = 0; j < components.size(); j++)
@@ -29,7 +29,7 @@ void PhysicsSystem::Update()
 					if (components[j]->id == COMP_POS)
 					{
 						m_position = dynamic_cast<Position*>(components[j]);
-						break;
+						j = components.size();
 					}
 				}
 			}
@@ -40,7 +40,7 @@ void PhysicsSystem::Update()
 				m_gravity = dynamic_cast<Gravity*>(components[i]);
 				if (m_gravity->customGravity == 0.0)
 				{
-					appliedGravity = this->worldGravity;
+					appliedGravity = worldGravity;
 				}
 				else
 				{

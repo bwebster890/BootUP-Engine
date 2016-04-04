@@ -30,7 +30,6 @@ public:
 
 	void CopyEntity(std::string, std::string);
 	void RemoveEntity(std::string);
-	void CheckComponents(std::string);
 };
 
 #endif//STATE_HPP

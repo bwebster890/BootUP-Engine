@@ -55,17 +55,14 @@ int main()
 	state->AddComponent("player2", new Position(500.0, 250.0, 0.0));
 	state->AddComponent("player2", new Rect(100.0, 100.0));
 	state->AddComponent("player2", new Texture("images/test2.png"));
-	//state->AddComponent("player2", new Velocity());
+	state->AddComponent("player2", new Velocity());
 
 	//test entity: player3
 	state->CopyEntity("player1", "player3");
 	state->ChangeComponent("player3", new Position(50.0, 50.0, 0.0));
 
-
-
-
 	//remove player 1 and all it's components
-	//state->RemoveEntity("player1");
+	state->RemoveEntity("player1");
 
 
 	//game loop
