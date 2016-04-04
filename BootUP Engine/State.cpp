@@ -3,6 +3,7 @@
 State::State()
 {
 	m_render = nullptr;
+	m_physics = nullptr;
 }
 State::~State()
 {
@@ -15,24 +16,32 @@ State::~State()
 
 void State::Update()
 {
-	if(m_render->Enabled())
+	if (m_render->Enabled())
 		m_render->Update();
+	if (m_physics->Enabled())
+		m_physics->Update();
 }
 
 void State::SetSystem(System* system)
 {
 	if (system->GetID() == SYS_RENDER)
 		m_render = dynamic_cast<RenderSystem*>(system);
+	if (system->GetID() == SYS_PHYSICS)
+		m_physics = dynamic_cast<PhysicsSystem*>(system);
 }
 void State::EnableSystem(unsigned id)
 {
 	if (id = m_render->GetID())
 		m_render->Enable();
+	if (id = m_physics->GetID())
+		m_physics->Enable();
 }
 void State::DisableSystem(unsigned id)
 {
 	if (id = m_render->GetID())
 		m_render->Disable();
+	if (id = m_physics->GetID())
+		m_physics->Disable();
 }
 
 void State::AddComponent(std::string entity, Component* component)
@@ -43,6 +52,7 @@ void State::AddComponent(std::string entity, Component* component)
 	if (component->id == COMP_POS)
 	{
 		m_render->AddComponent(component);
+		m_physics->AddComponent(component);
 	}
 
 	if (component->id == COMP_RECT)
@@ -54,9 +64,14 @@ void State::AddComponent(std::string entity, Component* component)
 	{
 		m_render->AddComponent(component);
 	}
+	if (component->id == COMP_GRAVITY)
+	{
+		m_physics->AddComponent(component);
+	}
 }
 void State::ChangeComponent(std::string entity, Component* component)
 {
+	this->CheckComponents(entity);
 	component->entity = entity;
 
 	for (unsigned i = 0; i < components.size(); i++)
@@ -68,6 +83,7 @@ void State::ChangeComponent(std::string entity, Component* component)
 	if (component->id == COMP_POS)
 	{
 		m_render->ChangeComponent(entity, component);
+		m_physics->ChangeComponent(entity, component);
 	}
 
 	if (component->id == COMP_RECT)
@@ -79,6 +95,10 @@ void State::ChangeComponent(std::string entity, Component* component)
 	{
 		m_render->ChangeComponent(entity, component);
 	}
+	if (component->id == COMP_GRAVITY)
+	{
+		m_physics->ChangeComponent(entity, component);
+	}
 }
 void State::RemoveComponent(std::string entity, unsigned id)
 {
@@ -89,6 +109,7 @@ void State::RemoveComponent(std::string entity, unsigned id)
 			if (components[i]->id == COMP_POS)
 			{
 				m_render->RemoveComponent(entity, id);
+				m_physics->RemoveComponent(entity, id);
 			}
 
 			if (components[i]->id == COMP_RECT)
@@ -99,6 +120,10 @@ void State::RemoveComponent(std::string entity, unsigned id)
 			if (components[i]->id == COMP_TEXTURE)
 			{
 				m_render->RemoveComponent(entity, id);
+			}
+			if (components[i]->id == COMP_GRAVITY)
+			{
+				m_physics->RemoveComponent(entity, id);
 			}
 
 			delete components[i];
@@ -127,6 +152,10 @@ void State::CopyEntity(std::string old_entity, std::string new_entity)
 			{
 				AddComponent(new_entity, new Texture(*dynamic_cast<Texture*>(components[i])));
 			}
+			if (components[i]->id == COMP_GRAVITY)
+			{
+				AddComponent(new_entity, new Gravity(*dynamic_cast<Gravity*>(components[i])));
+			}
 		}
 	}
 }
@@ -139,6 +168,7 @@ void State::RemoveEntity(std::string entity)
 			if (components[i]->id == COMP_POS)
 			{
 				m_render->RemoveComponent(entity, components[i]->id);
+				m_physics->RemoveComponent(entity, components[i]->id);
 			}
 
 			if (components[i]->id == COMP_RECT)
@@ -151,10 +181,23 @@ void State::RemoveEntity(std::string entity)
 				m_render->RemoveComponent(entity, components[i]->id);
 			}
 
+			if (components[i]->id == COMP_GRAVITY)
+			{
+				m_physics->RemoveComponent(entity, components[i]->id);
+			}
+
 			delete components[i];
 			components.erase(components.begin() + i);
 		}
 		else
 			++i;
 	}
+}
+
+void State::CheckComponents(std::string entity)
+{
+	std::cout << "Render System: " << std::endl;
+	m_render->CheckComponents(entity);
+	std::cout << "Physics System: " << std::endl;
+	m_physics->CheckComponents(entity);
 }
