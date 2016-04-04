@@ -50,6 +50,34 @@ void PhysicsSystem::Update()
 				m_position->y += appliedGravity;
 			}
 		}
+		if (components[i]->id == COMP_VELOCITY)
+		{
+			m_position = nullptr;
+
+			// Set entity string to make sure the system updates the right entities position
+			std::string myEntity = components[i]->entity;
+			for (unsigned j = 0; j < components.size(); j++)
+			{
+				if (components[j]->entity == myEntity)
+				{
+					if (components[j]->id == COMP_POS)
+					{
+						m_position = dynamic_cast<Position*>(components[j]);
+						j = components.size();
+					}
+				}
+			}
+			// If the entitiy has position apply velocity.
+			if (m_position != nullptr)
+			{
+				m_velocity = dynamic_cast<Velocity*>(components[i]);
+				
+				// Apply Velocity
+				m_position->x += m_velocity->x;
+				m_position->y += m_velocity->y;
+				m_position->z += m_velocity->z;
+			}
+		}
 	}
 }
 void PhysicsSystem::AddComponent(Component* component)

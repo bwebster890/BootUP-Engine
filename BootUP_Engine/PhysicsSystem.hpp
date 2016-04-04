@@ -7,11 +7,12 @@
 class PhysicsSystem : public System
 {
 private:
-	float worldGravity = 9.8;
+	float worldGravity = 9.8f;
 
 	//components used in Update
 	Position* m_position;
 	Gravity* m_gravity;
+	Velocity* m_velocity;
 
 public:
 	PhysicsSystem();
