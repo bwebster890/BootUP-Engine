@@ -3,6 +3,7 @@
 
 #include "State.hpp"
 #include "RenderSystem.hpp"
+#include "PhysicsSystem.hpp"
 #include "Camera.hpp"
 #include "ShaderProgram.hpp"
 
@@ -24,6 +25,7 @@ int main()
 
 	State* state = new State;
 	RenderSystem* render = new RenderSystem;
+	PhysicsSystem* physics = new PhysicsSystem;
 	ShaderProgram* program = new ShaderProgram;
 	Camera* camera = new Camera;
 
@@ -41,23 +43,29 @@ int main()
 
 	//link the render system to the render system in state
 	state->SetSystem(render);
+	state->SetSystem(physics);
 	
 	//test entity: player1
 	state->AddComponent("player1", new Position(200.0, 250.0, 0.0));
 	state->AddComponent("player1", new Rect(100.0, 100.0));
 	state->AddComponent("player1", new Texture("images/test.png"));
+	state->AddComponent("player1", new Gravity());
 
 	//test entity: player2
 	state->AddComponent("player2", new Position(500.0, 250.0, 0.0));
 	state->AddComponent("player2", new Rect(100.0, 100.0));
 	state->AddComponent("player2", new Texture("images/test2.png"));
+	//state->AddComponent("player2", new Velocity());
 
 	//test entity: player3
 	state->CopyEntity("player1", "player3");
 	state->ChangeComponent("player3", new Position(50.0, 50.0, 0.0));
 
+
+
+
 	//remove player 1 and all it's components
-	state->RemoveEntity("player1");
+	//state->RemoveEntity("player1");
 
 
 	//game loop

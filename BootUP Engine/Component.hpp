@@ -156,4 +156,44 @@ struct Texture : public Component
 	}
 };
 
+struct Gravity : public Component
+{
+	float customGravity = 0.0;
+
+	Gravity() { id = COMP_GRAVITY; }
+	Gravity(float customGravity)
+	{
+		this->customGravity = customGravity;
+		id = COMP_GRAVITY;
+	}
+	virtual ~Gravity() {}
+};
+
+struct Velocity : public Component
+{
+	float x, y, z;
+
+	Velocity()
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+
+		id = COMP_VELOCITY;
+	}
+	Velocity(float x, float y, float z)
+	{
+		this->x = x;
+		this->y = y;
+		this->z = z;
+
+		id = COMP_VELOCITY;
+	}
+	void adjustXVelocity(float x) { this->x = x; }
+	void adjustYVelocity(float y) { this->y = y; }
+	void adjustZVelocity(float z) { this->z = z; }
+
+	virtual ~Velocity() {}
+};
+
 #endif//COMPONENT_HPP

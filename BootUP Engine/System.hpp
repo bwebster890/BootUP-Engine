@@ -3,6 +3,7 @@
 
 #include "SystemID.h"
 #include "Component.hpp"
+#include <iostream>
 
 class System
 {
@@ -24,12 +25,13 @@ public:
 	virtual void AddComponent(Component* component) = 0{}
 	void ChangeComponent(std::string entity, Component* component)
 	{
-		for (int i = 0; i < components.size(); i++)
+		for (unsigned i = 0; i < components.size(); i++)
 		{
 			if (components[i]->entity == entity && components[i]->id == component->id)
 			{
 				delete components[i];
 				components[i] = component;
+				break;
 			}
 		}
 	}
@@ -40,6 +42,17 @@ public:
 			if (components[i]->entity == entity && components[i]->id == id)
 			{
 				components.erase(components.begin() + i);
+			}
+		}
+	}
+
+	void CheckComponents(std::string entity)
+	{
+		for (unsigned i = 0; i < components.size(); i++)
+		{
+			if (components[i]->entity == entity)
+			{
+				std::cout << "Entity: " << components[i]->entity << " ID: " << components[i]->id << std::endl;
 			}
 		}
 	}

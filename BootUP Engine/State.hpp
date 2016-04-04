@@ -4,6 +4,7 @@
 #include <string>
 
 #include "RenderSystem.hpp"
+#include "PhysicsSystem.hpp"
 
 class State
 {
@@ -11,6 +12,7 @@ private:
 	std::vector <Component*> components;
 
 	RenderSystem* m_render;
+	PhysicsSystem* m_physics;
 
 public:
 	State();
@@ -28,6 +30,7 @@ public:
 
 	void CopyEntity(std::string, std::string);
 	void RemoveEntity(std::string);
+	void CheckComponents(std::string);
 };
 
 #endif//STATE_HPP

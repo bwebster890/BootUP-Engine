@@ -22,6 +22,7 @@
     <ClCompile Include="BootUP.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ImageLoader.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="State.cpp" />
@@ -31,6 +32,7 @@
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="ComponentID.h" />
     <ClInclude Include="ImageLoader.h" />
+    <ClInclude Include="PhysicsSystem.hpp" />
     <ClInclude Include="RenderSystem.hpp" />
     <ClInclude Include="ShaderProgram.hpp" />
     <ClInclude Include="State.hpp" />

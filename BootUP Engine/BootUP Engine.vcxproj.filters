@@ -30,6 +30,9 @@
     <ClCompile Include="State.cpp">
       <Filter>BootUP</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp">
@@ -58,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="State.hpp">
       <Filter>BootUP</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsSystem.hpp">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
