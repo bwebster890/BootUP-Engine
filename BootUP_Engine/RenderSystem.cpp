@@ -20,17 +20,17 @@ void RenderSystem::Update()
 		{
 			m_position = dynamic_cast<Position*>(components[i]);
 
-			m_mvp = m_camera->get_matrix() * glm::translate(glm::mat4(0.1), glm::vec3(m_position->x, m_position->y, m_position->z));
+			m_mvp = m_camera->get_matrix() * glm::translate(glm::mat4(1.0), glm::vec3(m_position->x, m_position->y, m_position->z));
 
 			m_uniformLoc = glGetUniformLocation(*m_program->get_program(), "MVP");
 			glUniformMatrix4fv(m_uniformLoc, 1, false, &m_mvp[0][0]);
 		}
 
-		if (components[i]->id == COMP_RECT)
+		if (components[i]->id == COMP_VERTICES)
 		{
-			m_rect = dynamic_cast<Rect*>(components[i]);
+			m_vertices = dynamic_cast<Vertices*>(components[i]);
 
-			glBindVertexArray(m_rect->vao);
+			glBindVertexArray(m_vertices->vao);
 		}
 
 		if (components[i]->id == COMP_TEXTURE)
@@ -42,8 +42,13 @@ void RenderSystem::Update()
 
 			m_uniformLoc = glGetUniformLocation(*m_program->get_program(), "tex");
 			glUniform1i(m_uniformLoc, 0);
+		}
 
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		if (components[i]->id == COMP_INDICES)
+		{
+			m_indices = dynamic_cast<Indices*>(components[i]);
+
+			glDrawElements(GL_TRIANGLES, m_indices->indices.size(), GL_UNSIGNED_INT, &m_indices->indices[0]);
 			glBindVertexArray(0);
 		}
 	}
@@ -54,17 +59,17 @@ void RenderSystem::AddComponent(Component* component)
 
 	if (component->id == COMP_POS){}
 
-	if (component->id == COMP_RECT)
+	if (component->id == COMP_VERTICES)
 	{
-		m_rect = dynamic_cast<Rect*>(component);
+		m_vertices = dynamic_cast<Vertices*>(component);
 
-		glBindVertexArray(m_rect->vao);
+		glBindVertexArray(m_vertices->vao);
 
-		glGenBuffers(1, &m_rect->vbo);
+		glGenBuffers(1, &m_vertices->vbo);
 
-		glBindBuffer(GL_ARRAY_BUFFER, m_rect->vbo);
-		glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(GLfloat), m_rect->rect, GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vertices->vbo);
+		glBufferData(GL_ARRAY_BUFFER, m_vertices->vertices.size() * sizeof(GLfloat), &m_vertices->vertices[0], GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		glEnableVertexAttribArray(0);
 	}
@@ -76,11 +81,13 @@ void RenderSystem::AddComponent(Component* component)
 		glGenBuffers(1, &m_texture->vbo);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_texture->vbo);
-		glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(GLfloat), m_texture->coords, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, m_texture->coords.size() * sizeof(GLfloat), &m_texture->coords[0], GL_STATIC_DRAW);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 		glEnableVertexAttribArray(1);
 	}
+
+	if (component->id == COMP_INDICES){}
 }
 void RenderSystem::SetCamera(Camera* camera)
 {

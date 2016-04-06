@@ -23,7 +23,8 @@ private:
 
 	//components used in Update
 	Position* m_position;
-	Rect* m_rect;
+	Vertices* m_vertices;
+	Indices* m_indices;
 	Texture* m_texture;
 
 	Camera* m_camera;

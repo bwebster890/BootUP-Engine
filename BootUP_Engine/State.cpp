@@ -55,7 +55,12 @@ void State::AddComponent(std::string entity, Component* component)
 		m_physics->AddComponent(component);
 	}
 
-	if (component->id == COMP_RECT)
+	if (component->id == COMP_VERTICES)
+	{
+		m_render->AddComponent(component);
+	}
+
+	if (component->id == COMP_INDICES)
 	{
 		m_render->AddComponent(component);
 	}
@@ -85,11 +90,6 @@ void State::ChangeComponent(std::string entity, Component* component)
 		m_physics->ChangeComponent(entity, component);
 	}
 
-	if (component->id == COMP_RECT)
-	{
-		m_render->ChangeComponent(entity, component);
-	}
-
 	if (component->id == COMP_TEXTURE)
 	{
 		m_render->ChangeComponent(entity, component);
@@ -110,12 +110,6 @@ void State::RemoveComponent(std::string entity, unsigned id)
 				m_render->RemoveComponent(entity, id);
 				m_physics->RemoveComponent(entity, id);
 			}
-
-			if (components[i]->id == COMP_RECT)
-			{
-				m_render->RemoveComponent(entity, id);
-			}
-
 			if (components[i]->id == COMP_TEXTURE)
 			{
 				m_render->RemoveComponent(entity, id);
@@ -141,12 +135,14 @@ void State::CopyEntity(std::string old_entity, std::string new_entity)
 			{
 				AddComponent(new_entity, new Position(*dynamic_cast<Position*>(components[i])));
 			}
-
-			if (components[i]->id == COMP_RECT)
+			if (components[i]->id == COMP_VERTICES)
 			{
-				AddComponent(new_entity, new Rect(*dynamic_cast<Rect*>(components[i])));
+				AddComponent(new_entity, new Vertices(*dynamic_cast<Vertices*>(components[i])));
 			}
-
+			if (components[i]->id == COMP_INDICES)
+			{
+				AddComponent(new_entity, new Indices(*dynamic_cast<Indices*>(components[i])));
+			}
 			if (components[i]->id == COMP_TEXTURE)
 			{
 				AddComponent(new_entity, new Texture(*dynamic_cast<Texture*>(components[i])));
@@ -168,11 +164,6 @@ void State::RemoveEntity(std::string entity)
 			{
 				m_render->RemoveComponent(entity, components[i]->id);
 				m_physics->RemoveComponent(entity, components[i]->id);
-			}
-
-			if (components[i]->id == COMP_RECT)
-			{
-				m_render->RemoveComponent(entity, components[i]->id);
 			}
 
 			if (components[i]->id == COMP_TEXTURE)

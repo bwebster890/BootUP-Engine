@@ -41,103 +41,72 @@ struct Position : public Component
 	virtual ~Position(){}
 };
 
-struct Rect : public Component
+struct Vertices : public Component
 {
-	float w, h, rect[8];
 	unsigned vbo, vao;
+	std::vector <float> vertices;
 
-	Rect()
+	Vertices()
 	{
+		id = COMP_VERTICES;
 		glGenVertexArrays(1, &vao);
-		id = COMP_RECT;
-
-		w = 100;
-		h = 100;
-
-		rect[0] = 0;
-		rect[1] = h;
-
-		rect[2] = 0;
-		rect[3] = 0;
-
-		rect[4] = w;
-		rect[5] = h;
-
-		rect[6] = w;
-		rect[7] = 0;
+	}
+	virtual ~Vertices()
+	{
 
 	}
-	Rect(float w, float h)
+
+	void AddVertex(float x, float y, float z)
 	{
-		glGenVertexArrays(1, &vao);
-		id = COMP_RECT;
-
-		this->w = w; 
-		this->h = h;
-
-		rect[0] = 0;
-		rect[1] = h;
-
-		rect[2] = 0;
-		rect[3] = 0;
-
-		rect[4] = w;
-		rect[5] = h;
-
-		rect[6] = w;
-		rect[7] = 0;
+		vertices.push_back(x);
+		vertices.push_back(y);
+		vertices.push_back(z);
 	}
-	~Rect(){}
+
+};
+
+struct Indices : public Component
+{
+	std::vector <unsigned> indices;
+
+	Indices()
+	{
+		id = COMP_INDICES;
+	}
+	virtual ~Indices(){}
+
+	inline void AddIndex(unsigned index){ indices.push_back(index); }
 };
 
 struct Texture : public Component
 {
-	float coords[8];
+	std::vector <float> coords;
 	unsigned texture, vbo;
 
 	Texture()
 	{
 		id = COMP_TEXTURE;
-
-		coords[0] = 0;
-		coords[1] = 0;
-
-		coords[2] = 0;
-		coords[3] = 1;
-
-		coords[4] = 1;
-		coords[5] = 0;
-
-		coords[6] = 1;
-		coords[7] = 1;
 	}
 	Texture(std::string path)
 	{
 		texture = LoadPNG(path);
 		id = COMP_TEXTURE;
-
-		coords[0] = 0;
-		coords[1] = 0;
-
-		coords[2] = 0;
-		coords[3] = 1;
-
-		coords[4] = 1;
-		coords[5] = 0;
-
-		coords[6] = 1;
-		coords[7] = 1;
 	}
 	Texture(const Texture& tex)
 	{
 		texture = tex.texture;
 
-		for (int i = 0; i < 8; i++)
-			coords[i] = tex.coords[i];
+		coords = tex.coords;
 
 		id = COMP_TEXTURE;
 	}
-	~Texture(){}
+	virtual ~Texture(){}
+
+	void AddCoords(float x, float y)
+	{
+		coords.push_back(x);
+		coords.push_back(y);
+	}
 };
 
 struct Gravity : public Component
@@ -159,23 +128,24 @@ struct Velocity : public Component
 
 	Velocity()
 	{
+		id = COMP_VELOCITY;
+
 		x = 0;
 		y = 0;
 		z = 0;
-
-		id = COMP_VELOCITY;
 	}
 	Velocity(float x, float y, float z)
 	{
+		id = COMP_VELOCITY;
+
 		this->x = x;
 		this->y = y;
 		this->z = z;
-
-		id = COMP_VELOCITY;
 	}
-	void adjustXVelocity(float x) { this->x = x; }
-	void adjustYVelocity(float y) { this->y = y; }
-	void adjustZVelocity(float z) { this->z = z; }
+
+	inline void adjustXVelocity(float x) { this->x = x; }
+	inline void adjustYVelocity(float y) { this->y = y; }
+	inline void adjustZVelocity(float z) { this->z = z; }
 
 	virtual ~Velocity() {}
 };

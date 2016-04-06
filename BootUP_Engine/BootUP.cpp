@@ -6,6 +6,7 @@
 #include "PhysicsSystem.hpp"
 #include "Camera.hpp"
 #include "ShaderProgram.hpp"
+#include "ModelLoader.hpp"
 
 int main()
 {
@@ -30,7 +31,7 @@ int main()
 	Camera* camera = new Camera;
 
 	//set the camera to have a 2D perspective
-	camera->set_ortho(800, 600, 0.0, -100.0);
+	camera->set_projective(800, 600, 45.0, 0.0, 100.0);
 
 	//load in the shaders so we can use them in the render system
 	program->set_vertex("shaders/test.vert");
@@ -44,26 +45,16 @@ int main()
 	//link the render system to the render system in state
 	state->SetSystem(render);
 	state->SetSystem(physics);
-	
+
 	//test entity: player1
-	state->AddComponent("player1", new Position(200.0, 250.0, 0.0));
-	state->AddComponent("player1", new Rect(100.0, 100.0));
-	state->AddComponent("player1", new Texture("images/test.png"));
-	state->AddComponent("player1", new Gravity());
+	state->AddComponent("player1", new Position(2.0, 0.0, -10.0));
+	LoadModel(state, "player1", "models/cube.bm");
 
 	//test entity: player2
-	state->AddComponent("player2", new Position(500.0, 250.0, 0.0));
-	state->AddComponent("player2", new Rect(100.0, 100.0));
-	state->AddComponent("player2", new Texture("images/test2.png"));
-	state->AddComponent("player2", new Velocity());
+	state->CopyEntity("player1", "player2");
+	state->ChangeComponent("player2", new Position(-2.0, 0.0, -7.0));
 
-	//test entity: player3
-	state->CopyEntity("player1", "player3");
-	state->ChangeComponent("player3", new Position(50.0, 50.0, 0.0));
-
-	//remove player 1 and all it's components
-	state->RemoveEntity("player1");
-
+	glEnable(GL_CULL_FACE);
 
 	//game loop
 	while (!glfwWindowShouldClose(window))
