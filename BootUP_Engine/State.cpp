@@ -73,6 +73,10 @@ void State::AddComponent(std::string entity, Component* component)
 	{
 		m_physics->AddComponent(component);
 	}
+	if (component->id == COMP_VELOCITY)
+	{
+		m_physics->AddComponent(component);
+	}
 }
 void State::ChangeComponent(std::string entity, Component* component)
 {
@@ -98,6 +102,10 @@ void State::ChangeComponent(std::string entity, Component* component)
 	{
 		m_physics->ChangeComponent(entity, component);
 	}
+	if (component->id == COMP_VELOCITY)
+	{
+		m_physics->ChangeComponent(entity, component);
+	}
 }
 void State::RemoveComponent(std::string entity, unsigned id)
 {
@@ -115,6 +123,10 @@ void State::RemoveComponent(std::string entity, unsigned id)
 				m_render->RemoveComponent(entity, id);
 			}
 			if (components[i]->id == COMP_GRAVITY)
+			{
+				m_physics->RemoveComponent(entity, id);
+			}
+			if (components[i]->id == COMP_VELOCITY)
 			{
 				m_physics->RemoveComponent(entity, id);
 			}
@@ -151,6 +163,10 @@ void State::CopyEntity(std::string old_entity, std::string new_entity)
 			{
 				AddComponent(new_entity, new Gravity(*dynamic_cast<Gravity*>(components[i])));
 			}
+			if (components[i]->id == COMP_VELOCITY)
+			{
+				AddComponent(new_entity, new Velocity(*dynamic_cast<Velocity*>(components[i])));
+			}
 		}
 	}
 }
@@ -172,6 +188,10 @@ void State::RemoveEntity(std::string entity)
 			}
 
 			if (components[i]->id == COMP_GRAVITY)
+			{
+				m_physics->RemoveComponent(entity, components[i]->id);
+			}
+			if (components[i]->id == COMP_VELOCITY)
 			{
 				m_physics->RemoveComponent(entity, components[i]->id);
 			}
