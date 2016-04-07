@@ -6,8 +6,6 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glew/glew.h>
-#include <glfw/glfw3.h>
 
 #include "System.hpp"
 #include "Component.hpp"

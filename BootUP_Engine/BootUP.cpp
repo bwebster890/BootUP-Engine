@@ -12,60 +12,17 @@
 #include "ShaderProgram.hpp"
 #include "Utility.hpp"
 
-const static std::string window_title = "BootUp Engine";
+#define FRAME_RATE 60
 
-// Frame Limit Variables
-double currentFrameTime = 0.0;
-double lastFrameTime = 0.0;
-double maxFramerate = 60.0;
-
-bool initialize_apis(SDL_Window** window, SDL_GLContext* gl_context, int w, int h) {
-    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) {
-        printf("Failed to initialize SDL: '%s'.\n", SDL_GetError());
-        return false;
-    }
-    
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    
-    *window = SDL_CreateWindow(window_title.c_str(),
-                               SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                               w, h,
-                               SDL_WINDOW_OPENGL);
-    if(!*window) {
-        printf("Failed to create a window: '%s'.\n", SDL_GetError());
-        return false;
-    }
-    
-    *gl_context = SDL_GL_CreateContext(*window);
-    if(!*gl_context) {
-        printf("Failed to create an OpenGL context: '%s'.\n", SDL_GetError());
-        return false;
-    }
-    
-    glewExperimental = true; // allows glew to use experimental features
-    auto glew_init_status = glewInit();
-    if(glew_init_status != GLEW_OK) {
-        printf("Failed to initialize GLEW: '%s'.\n", glewGetErrorString(glew_init_status));
-        return false;
-    }
-    
-    return true;
-}
-void shutdown_apis(SDL_Window *window, SDL_GLContext gl_context) {
-    SDL_GL_DeleteContext(gl_context);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-}
-
-int main()
+int main(int argc, char *argv[])
 {
 	// initialize all apis, but quit program if any failed
     SDL_Window *window = 0;
     SDL_GLContext gl_context = 0;
     if(!initialize_apis(&window, &gl_context, 800, 600))
         return -1;
+
+	bool is_running = true;
 
 	State* state = new State;
 	RenderSystem* render = new RenderSystem;
@@ -91,20 +48,17 @@ int main()
 	
 	//test entity: player1
 	LoadModel(state, "player1", "models/cube.bm");
-	state->AddComponent("player1", new Orientation(glm::vec3(2.0, 0.0, -10.0), glm::vec3(0.0, 1.0, 0.0), 1.0f));
-	state->AddComponent("player1", new Velocity(0.01, 0.01, 0.0));
+	state->AddComponent("player1", new Orientation(glm::vec3(2.0, 0.0, -10.0), glm::vec3(0.0, 1.0, 0.0), 0.01f));
+	state->AddComponent("player1", new Velocity(0.1, 0.1, 0.0));
 
 	//test entity: player2
 	state->CopyEntity("player1", "player2");
-	state->AddComponent("player2", new Orientation(glm::vec3(-2.0, 0.0, -7.0), glm::vec3(0.0, 0.0, 1.0), 1.0f));
+	state->AddComponent("player2", new Orientation(glm::vec3(-2.0, 0.0, -7.0), glm::vec3(1.0, 1.0, 0.0), 0.01f));
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
     glClearColor(0.0, 0.0, 0.0, 1.0);
 
-	int counter = 0;
-
-	bool is_running = true;
 	while (is_running)
 	{
         SDL_Event event;
@@ -113,18 +67,13 @@ int main()
                 is_running = false;
             }
         }
-        
-		currentFrameTime = get_real_time();
-		if (currentFrameTime - lastFrameTime >= 1.0 / maxFramerate)
-		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			state->Update();
-			SDL_GL_SwapWindow(window);
-			++counter;
-			lastFrameTime = currentFrameTime;
-            update_frame_time_info();
-            indicate_frame_time_info_on_window_title(window, "bootupengine"); // crashes if window_title.c_str() is used. temporary.
-		}
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		state->Update();
+
+		SDL_GL_SwapWindow(window);
+		SDL_Delay(1000 / FRAME_RATE);
 	}
 
 	delete state;

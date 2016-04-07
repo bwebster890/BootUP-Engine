@@ -74,6 +74,7 @@ void PhysicsSystem::Update()
 				
 				// Apply Velocity
 				m_orientation->adjustPosition(m_velocity->velocity);
+				m_orientation->adjustRotation(m_orientation->rotation);
 			}
 		}
 	}

@@ -1,26 +1,33 @@
 #ifndef UTILITY_HPP
 #define UTILITY_HPP
 
-double get_real_time() {
+const static std::string windowTitle = "BootUp Engine";
+
+double get_real_time() 
+{
     return SDL_GetPerformanceCounter() / double(SDL_GetPerformanceFrequency());
 }
 const int FRAME_TIME_INFO_SAMPLE_COUNT = 4; // four should be enough
-struct {
+struct 
+{
     double samples[FRAME_TIME_INFO_SAMPLE_COUNT];
 } frame_time_info;
-void update_frame_time_info() {
+void update_frame_time_info() 
+{
     int copy_size = sizeof(double) * FRAME_TIME_INFO_SAMPLE_COUNT - 1;
     memmove(frame_time_info.samples + 1, frame_time_info.samples, copy_size);
     frame_time_info.samples[0] = get_real_time();
 }
-double get_average_frametime() {
+double get_average_frametime() 
+{
     double frametime = 0.0;
     for(int i = 1; i < FRAME_TIME_INFO_SAMPLE_COUNT; ++i) {
         frametime += frame_time_info.samples[i - 1] - frame_time_info.samples[i];
     }
     return frametime / FRAME_TIME_INFO_SAMPLE_COUNT;
 }
-void indicate_frame_time_info_on_window_title(SDL_Window *window, const char *base_title) {
+void indicate_frame_time_info_on_window_title(SDL_Window *window, const char *base_title) 
+{
     double average_frametime = get_average_frametime();
     int size = snprintf(0, 0, "%s | fps=%lf frametime=%lf",
                         base_title, 1.0 / average_frametime, average_frametime);
@@ -31,7 +38,50 @@ void indicate_frame_time_info_on_window_title(SDL_Window *window, const char *ba
     free(new_title);
 }
 
+bool initialize_apis(SDL_Window** window, SDL_GLContext* gl_context, int w, int h)
+{
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
+	{
+		printf("Failed to initialize SDL: '%s'.\n", SDL_GetError());
+		return false;
+	}
 
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+	*window = SDL_CreateWindow(windowTitle.c_str(),
+		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		w, h,
+		SDL_WINDOW_OPENGL);
+	if (!*window)
+	{
+		printf("Failed to create a window: '%s'.\n", SDL_GetError());
+		return false;
+	}
+
+	*gl_context = SDL_GL_CreateContext(*window);
+	if (!*gl_context)
+	{
+		printf("Failed to create an OpenGL context: '%s'.\n", SDL_GetError());
+		return false;
+	}
+
+	glewExperimental = true; // allows glew to use experimental features
+	auto glew_init_status = glewInit();
+	if (glew_init_status != GLEW_OK)
+	{
+		printf("Failed to initialize GLEW: '%s'.\n", glewGetErrorString(glew_init_status));
+		return false;
+	}
+
+	return true;
+}
+void shutdown_apis(SDL_Window *window, SDL_GLContext gl_context) {
+	SDL_GL_DeleteContext(gl_context);
+	SDL_DestroyWindow(window);
+	SDL_Quit();
+}
 
 
 //class Framerate

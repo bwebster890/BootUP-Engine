@@ -18,7 +18,7 @@ void RenderSystem::Update()
 			m_orientation = dynamic_cast<Orientation*>(components[i]);
 
 			// Object Orientation Matrix
-			glm::mat4 obj_orientation;
+			glm::mat4 obj_orientation(1.0);
 
 			// Set the object's position in the matix
 			obj_orientation = glm::translate(obj_orientation, m_orientation->position);
@@ -26,12 +26,18 @@ void RenderSystem::Update()
 			// Apply rotation if it is avalible (otherwise skip...if zeros are supplied the object will not be visible)
 			if (m_orientation->rotationSpeed > 0.0)
 			{
+				//make sure the angle is 360 degrees or less
+				if (m_orientation->angle >= 360.0)
+					m_orientation->angle = 0.0;
+
+				//apply the rotation
+				m_orientation->angle += m_orientation->rotationSpeed;
+
 				// Set the object's rotation in the matix
-				obj_orientation = glm::rotate(obj_orientation, (GLfloat)glfwGetTime() * m_orientation->rotationSpeed, m_orientation->rotation);
+				obj_orientation = glm::rotate(obj_orientation, m_orientation->angle, m_orientation->rotation);
 			}
 
 			m_mvp = m_camera->get_matrix() * obj_orientation;
-			//m_mvp = m_camera->get_matrix() * glm::translate(glm::mat4(1.0), m_orientation->position);
 
 			m_uniformLoc = glGetUniformLocation(*m_program->get_program(), "MVP");
 			glUniformMatrix4fv(m_uniformLoc, 1, false, &m_mvp[0][0]);

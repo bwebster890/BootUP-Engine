@@ -25,13 +25,14 @@ struct Orientation : public Component
 {
 	glm::vec3 position;
 	glm::vec3 rotation;
-	float rotationSpeed;
+	float rotationSpeed, angle;
 
 	Orientation()
 	{
 		this->position = glm::vec3(0.0, 0.0, 0.0);
 		this->rotation = glm::vec3(0.0, 0.0, 0.0);
 		this->rotationSpeed = 0.0;
+		this->angle = 0.0;
 		id = COMP_ORI;
 	}
 	Orientation(glm::vec3 startingPosition)
@@ -39,6 +40,7 @@ struct Orientation : public Component
 		this->position = startingPosition;
 		this->rotation = glm::vec3(0.0, 0.0, 0.0);
 		this->rotationSpeed = 0.0;
+		this->angle = 0.0;
 		id = COMP_ORI;
 	}
 
@@ -47,6 +49,7 @@ struct Orientation : public Component
 		this->position = startingPosition;
 		this->rotation = startingRotation;
 		this->rotationSpeed = rotationSpeed;
+		this->angle = 0.0;
 		id = COMP_ORI;
 	}
 
