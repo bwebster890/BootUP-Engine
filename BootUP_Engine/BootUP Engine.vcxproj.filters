@@ -68,5 +68,8 @@
     <ClInclude Include="ModelLoader.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Utility.hpp">
+      <Filter>BootUP</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
