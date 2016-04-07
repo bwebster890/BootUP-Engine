@@ -38,7 +38,7 @@ void indicate_frame_time_info_on_window_title(SDL_Window *window, const char *ba
     free(new_title);
 }
 
-bool initialize_apis(SDL_Window** window, SDL_GLContext* gl_context, int w, int h)
+bool initialize_apis(SDL_Window** window, SDL_GLContext* gl_context, int w, int h, int gl_major, int gl_minor)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
 	{
@@ -46,8 +46,8 @@ bool initialize_apis(SDL_Window** window, SDL_GLContext* gl_context, int w, int 
 		return false;
 	}
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, gl_major);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, gl_minor);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
 	*window = SDL_CreateWindow(windowTitle.c_str(),
@@ -56,14 +56,14 @@ bool initialize_apis(SDL_Window** window, SDL_GLContext* gl_context, int w, int 
 		SDL_WINDOW_OPENGL);
 	if (!*window)
 	{
-		printf("Failed to create a window: '%s'.\n", SDL_GetError());
+		printf("Failed to create a window (Version: %d.%d): '%s'.\n", gl_major, gl_minor, SDL_GetError());
 		return false;
 	}
 
 	*gl_context = SDL_GL_CreateContext(*window);
 	if (!*gl_context)
 	{
-		printf("Failed to create an OpenGL context: '%s'.\n", SDL_GetError());
+		printf("Failed to create an OpenGL context (Version: %d.%d ): '%s'.\n", gl_major, gl_minor, SDL_GetError());
 		return false;
 	}
 

@@ -19,8 +19,15 @@ int main(int argc, char *argv[])
 	// initialize all apis, but quit program if any failed
     SDL_Window *window = 0;
     SDL_GLContext gl_context = 0;
-    if(!initialize_apis(&window, &gl_context, 800, 600))
-        return -1;
+
+	// Try Version 4.1 else fall back to 3.0
+	if (!initialize_apis(&window, &gl_context, 800, 600, 4, 1))
+	{
+		if (!initialize_apis(&window, &gl_context, 800, 600, 3, 0))
+		{
+			return -1;
+		}
+	}
 
 	bool is_running = true;
 
