@@ -10,7 +10,7 @@ private:
 	float worldGravity = 9.8f;
 
 	//components used in Update
-	Position* m_position;
+	Orientation* m_orientation;
 	Gravity* m_gravity;
 	Velocity* m_velocity;
 

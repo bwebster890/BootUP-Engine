@@ -1,5 +1,3 @@
-#include <glew/glew.h>
-
 #include "RenderSystem.hpp"
 
 RenderSystem::RenderSystem()
@@ -16,11 +14,25 @@ void RenderSystem::Update()
 {
 	for (unsigned i = 0; i < components.size(); i++)
 	{
-		if (components[i]->id == COMP_POS)
+		if (components[i]->id == COMP_ORI)
 		{
-			m_position = dynamic_cast<Position*>(components[i]);
+			m_orientation = dynamic_cast<Orientation*>(components[i]);
 
-			m_mvp = m_camera->get_matrix() * glm::translate(glm::mat4(1.0), glm::vec3(m_position->x, m_position->y, m_position->z));
+			// Object Orientation Matrix
+			glm::mat4 obj_orientation;
+
+			// Set the object's position in the matix
+			obj_orientation = glm::translate(obj_orientation, m_orientation->position);
+
+			// Apply rotation if it is avalible (otherwise skip...if zeros are supplied the object will not be visible)
+			if (m_orientation->rotationSpeed > 0.0)
+			{
+				// Set the object's rotation in the matix
+				obj_orientation = glm::rotate(obj_orientation, (GLfloat)glfwGetTime() * m_orientation->rotationSpeed, m_orientation->rotation);
+			}
+
+			m_mvp = m_camera->get_matrix() * obj_orientation;
+			//m_mvp = m_camera->get_matrix() * glm::translate(glm::mat4(1.0), m_orientation->position);
 
 			m_uniformLoc = glGetUniformLocation(*m_program->get_program(), "MVP");
 			glUniformMatrix4fv(m_uniformLoc, 1, false, &m_mvp[0][0]);
@@ -57,7 +69,7 @@ void RenderSystem::AddComponent(Component* component)
 {
 	components.push_back(component);
 
-	if (component->id == COMP_POS){}
+	if (component->id == COMP_ORI){}
 
 	if (component->id == COMP_VERTICES)
 	{
