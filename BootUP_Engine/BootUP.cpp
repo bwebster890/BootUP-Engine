@@ -100,6 +100,7 @@ int main()
 
 	delete state;
 	delete render;
+	delete physics;
 	delete program;
 	delete camera;
 

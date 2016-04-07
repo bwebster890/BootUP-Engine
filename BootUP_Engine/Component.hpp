@@ -51,12 +51,12 @@ struct Orientation : public Component
 	}
 
 	// Set new position/rotation
-	void setPosition(glm::vec3 newPosition) { this->position = newPosition; }
-	void setRotation(glm::vec3 newRotation) { this->rotation = newRotation; }
+	inline void setPosition(glm::vec3 newPosition) { this->position = newPosition; }
+	inline void setRotation(glm::vec3 newRotation) { this->rotation = newRotation; }
 
 	// Shift position/rotation
-	void adjustPosition(glm::vec3 shiftPosition) { this->position += shiftPosition; }
-	void adjustRotation(glm::vec3 shiftRotation) { this->rotation += shiftRotation; }
+	inline void adjustPosition(glm::vec3 shiftPosition) { this->position += shiftPosition; }
+	inline void adjustRotation(glm::vec3 shiftRotation) { this->rotation += shiftRotation; }
 
 	virtual ~Orientation(){}
 };
