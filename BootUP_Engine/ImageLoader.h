@@ -1,7 +1,7 @@
 #ifndef IMAGE_LOADER_H
 #define IMAGE_LOADER_H
 
-#include <glew/glew.h>
+#include <GL/glew.h>
 #include <string>
 #include <libpng/png.h>
 

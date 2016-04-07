@@ -1,6 +1,6 @@
 #include "ImageLoader.h"
 
-#include <glew/glew.h>
+#include <GL/glew.h>
 #include <libpng/png.h>
 #include <cstdlib>
 
@@ -17,7 +17,7 @@ unsigned LoadPNG(std::string path)
 	png_infop info_ptr = png_create_info_struct(png_ptr);
 	png_infop end_info = png_create_info_struct(png_ptr);
 
-	setjmp(png_jmpbuf(png_ptr));
+	//setjmp(png_jmpbuf(png_ptr));
 
 	png_init_io(png_ptr, file);
 	png_set_sig_bytes(png_ptr, 8);

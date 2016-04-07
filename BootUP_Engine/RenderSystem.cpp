@@ -7,7 +7,6 @@ RenderSystem::RenderSystem()
 }
 RenderSystem::~RenderSystem()
 {
-
 }
 
 void RenderSystem::Update()

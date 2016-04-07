@@ -31,16 +31,16 @@ void State::SetSystem(System* system)
 }
 void State::EnableSystem(unsigned id)
 {
-	if (id = m_render->GetID())
+	if (id == m_render->GetID())
 		m_render->Enable();
-	if (id = m_physics->GetID())
+	if (id == m_physics->GetID())
 		m_physics->Enable();
 }
 void State::DisableSystem(unsigned id)
 {
-	if (id = m_render->GetID())
+	if (id == m_render->GetID())
 		m_render->Disable();
-	if (id = m_physics->GetID())
+	if (id == m_physics->GetID())
 		m_physics->Disable();
 }
 

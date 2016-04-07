@@ -21,8 +21,8 @@ public:
 	}
 	~System(){}
 
-	virtual void Update() = 0{}
-	virtual void AddComponent(Component* component) = 0{}
+	virtual void Update() = 0;
+	virtual void AddComponent(Component* component) = 0;
 	void ChangeComponent(std::string entity, Component* component)
 	{
 		for (unsigned i = 0; i < components.size(); i++)
