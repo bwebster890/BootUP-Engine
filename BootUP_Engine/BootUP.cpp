@@ -119,12 +119,14 @@ int main()
 	//test entity: player1
 	LoadModel(state, "player1", "models/cube.bm");
 	state->AddComponent("player1", new Position(2.0, 0.0, -10.0));
+	state->AddComponent("player1", new Velocity());
 
 	//test entity: player2
 	state->CopyEntity("player1", "player2");
 	state->AddComponent("player2", new Position(-2.0, 0.0, -7.0));
 
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 
 	int counter = 0;
 
@@ -151,22 +153,6 @@ int main()
 			glfwPollEvents();
 
 			counter++;
-			if(counter >= 100)
-			{
-				double x_rand = ((double)rand() / (RAND_MAX)) + 1;
-				double y_rand = ((double)rand() / (RAND_MAX)) + 1;
-				bool x_negitive = rand() % 2 == 1;
-				bool y_negitive = rand() % 2 == 1;
-
-				if (x_negitive)
-					x_rand *= -1.0;
-				if (y_negitive)
-					y_rand *= -1.0;
-
-				state->ChangeComponent("player2", new Velocity(x_rand, y_rand, 0.0));
-				std::cout << "New X: " << x_rand << " New Y: " << y_rand << std::endl;
-				counter = 0;
-			}
 		}
 	}
 
