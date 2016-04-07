@@ -5,6 +5,9 @@
 #include "ComponentID.h"
 
 #include <vector>
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 struct Component
 {
@@ -18,27 +21,44 @@ struct Component
 	virtual ~Component(){}
 };
 
-struct Position : public Component
+struct Orientation : public Component
 {
-	float x, y, z;
+	glm::vec3 position;
+	glm::vec3 rotation;
+	float rotationSpeed;
 
-	Position()
+	Orientation()
 	{
-		x = 0;
-		y = 0;
-		z = 0;
-
-		id = COMP_POS;
+		this->position = glm::vec3(0.0, 0.0, 0.0);
+		this->rotation = glm::vec3(0.0, 0.0, 0.0);
+		this->rotationSpeed = 0.0;
+		id = COMP_ORI;
 	}
-	Position(float x, float y, float z)
+	Orientation(glm::vec3 startingPosition)
 	{
-		this->x = x;
-		this->y = y;
-		this->z = z;
-
-		id = COMP_POS;
+		this->position = startingPosition;
+		this->rotation = glm::vec3(0.0, 0.0, 0.0);
+		this->rotationSpeed = 0.0;
+		id = COMP_ORI;
 	}
-	virtual ~Position(){}
+
+	Orientation(glm::vec3 startingPosition, glm::vec3 startingRotation, float rotationSpeed)
+	{
+		this->position = startingPosition;
+		this->rotation = startingRotation;
+		this->rotationSpeed = rotationSpeed;
+		id = COMP_ORI;
+	}
+
+	// Set new position/rotation
+	void setPosition(glm::vec3 newPosition) { this->position = newPosition; }
+	void setRotation(glm::vec3 newRotation) { this->rotation = newRotation; }
+
+	// Shift position/rotation
+	void adjustPosition(glm::vec3 shiftPosition) { this->position += shiftPosition; }
+	void adjustRotation(glm::vec3 shiftRotation) { this->rotation += shiftRotation; }
+
+	virtual ~Orientation(){}
 };
 
 struct Vertices : public Component
@@ -124,28 +144,22 @@ struct Gravity : public Component
 
 struct Velocity : public Component
 {
-	float x, y, z;
+	glm::vec3 velocity;
 
 	Velocity()
 	{
+		this->velocity = glm::vec3(0.0, 0.0, 0.0);
 		id = COMP_VELOCITY;
-
-		x = 0;
-		y = 0;
-		z = 0;
 	}
 	Velocity(float x, float y, float z)
 	{
+		this->velocity = glm::vec3(x, y, z);
 		id = COMP_VELOCITY;
-
-		this->x = x;
-		this->y = y;
-		this->z = z;
 	}
 
-	inline void adjustXVelocity(float x) { this->x = x; }
-	inline void adjustYVelocity(float y) { this->y = y; }
-	inline void adjustZVelocity(float z) { this->z = z; }
+	inline void adjustXVelocity(float x) { this->velocity.x = x; }
+	inline void adjustYVelocity(float y) { this->velocity.y = y; }
+	inline void adjustZVelocity(float z) { this->velocity.z = z; }
 
 	virtual ~Velocity() {}
 };

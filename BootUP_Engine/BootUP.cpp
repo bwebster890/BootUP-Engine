@@ -91,12 +91,12 @@ int main()
 	
 	//test entity: player1
 	LoadModel(state, "player1", "models/cube.bm");
-	state->AddComponent("player1", new Position(2.0, 0.0, -10.0));
-	state->AddComponent("player1", new Velocity());
+	state->AddComponent("player1", new Orientation(glm::vec3(2.0, 0.0, -10.0), glm::vec3(0.0, 1.0, 0.0), 1.0f));
+	state->AddComponent("player1", new Velocity(0.01, 0.01, 0.0));
 
 	//test entity: player2
 	state->CopyEntity("player1", "player2");
-	state->AddComponent("player2", new Position(-2.0, 0.0, -7.0));
+	state->AddComponent("player2", new Orientation(glm::vec3(-2.0, 0.0, -7.0), glm::vec3(0.0, 0.0, 1.0), 1.0f));
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);

@@ -2,7 +2,7 @@
 #define COMPONENT_ID_H
 
 #define COMP_NONE 0
-#define COMP_POS 1
+#define COMP_ORI 1
 #define COMP_VERTICES 2
 #define COMP_INDICES 3
 #define COMP_TEXTURE 4

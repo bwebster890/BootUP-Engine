@@ -49,7 +49,7 @@ void State::AddComponent(std::string entity, Component* component)
 	component->entity = entity;
 	components.push_back(component);
 
-	if (component->id == COMP_POS)
+	if (component->id == COMP_ORI)
 	{
 		m_render->AddComponent(component);
 		m_physics->AddComponent(component);
@@ -88,7 +88,7 @@ void State::ChangeComponent(std::string entity, Component* component)
 			components[i] = component;
 	}
 
-	if (component->id == COMP_POS)
+	if (component->id == COMP_ORI)
 	{
 		m_render->ChangeComponent(entity, component);
 		m_physics->ChangeComponent(entity, component);
@@ -113,7 +113,7 @@ void State::RemoveComponent(std::string entity, unsigned id)
 	{
 		if (components[i]->entity == entity && components[i]->id == id)
 		{
-			if (components[i]->id == COMP_POS)
+			if (components[i]->id == COMP_ORI)
 			{
 				m_render->RemoveComponent(entity, id);
 				m_physics->RemoveComponent(entity, id);
@@ -143,9 +143,9 @@ void State::CopyEntity(std::string old_entity, std::string new_entity)
 	{
 		if (components[i]->entity == old_entity)
 		{
-			if (components[i]->id == COMP_POS)
+			if (components[i]->id == COMP_ORI)
 			{
-				AddComponent(new_entity, new Position(*dynamic_cast<Position*>(components[i])));
+				AddComponent(new_entity, new Orientation(*dynamic_cast<Orientation*>(components[i])));
 			}
 			if (components[i]->id == COMP_VERTICES)
 			{
@@ -176,7 +176,7 @@ void State::RemoveEntity(std::string entity)
 	{
 		if (components[i]->entity == entity)
 		{
-			if (components[i]->id == COMP_POS)
+			if (components[i]->id == COMP_ORI)
 			{
 				m_render->RemoveComponent(entity, components[i]->id);
 				m_physics->RemoveComponent(entity, components[i]->id);

@@ -6,6 +6,8 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glew/glew.h>
+#include <glfw/glfw3.h>
 
 #include "System.hpp"
 #include "Component.hpp"
@@ -22,7 +24,7 @@ private:
 	int m_uniformLoc;
 
 	//components used in Update
-	Position* m_position;
+	Orientation* m_orientation;
 	Vertices* m_vertices;
 	Indices* m_indices;
 	Texture* m_texture;
