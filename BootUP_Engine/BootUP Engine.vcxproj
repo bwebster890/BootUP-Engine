@@ -39,6 +39,7 @@
     <ClInclude Include="State.hpp" />
     <ClInclude Include="System.hpp" />
     <ClInclude Include="SystemID.h" />
+    <ClInclude Include="Utility.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BB6599F4-D538-4FBB-AE89-ED74CA48B9B5}</ProjectGuid>
