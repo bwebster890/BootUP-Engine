@@ -1,7 +1,7 @@
 #ifndef RENDER_SYSTEM_HPP
 #define RENDER_SYSTEM_HPP
 
-#include <glew/glew.h>
+#include <GL/glew.h>
 #include <string>
 #include <vector>
 #include <glm/glm.hpp>
@@ -31,7 +31,7 @@ private:
 	ShaderProgram* m_program;
 public:
 	RenderSystem();
-	~RenderSystem();
+	virtual ~RenderSystem();
 
 	void Update();
 	void AddComponent(Component*);

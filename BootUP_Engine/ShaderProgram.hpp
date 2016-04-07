@@ -1,7 +1,7 @@
 #ifndef SHADER_PROGRAM
 #define SHADER_PROGRAM
 
-#include <glew/glew.h>
+#include <GL/glew.h>
 #include <string>
 
 class ShaderProgram

@@ -1,4 +1,4 @@
-#include <glew/glew.h>
+#include <GL/glew.h>
 
 #include "RenderSystem.hpp"
 
@@ -9,7 +9,6 @@ RenderSystem::RenderSystem()
 }
 RenderSystem::~RenderSystem()
 {
-
 }
 
 void RenderSystem::Update()
