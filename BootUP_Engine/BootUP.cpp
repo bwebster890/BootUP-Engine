@@ -1,8 +1,5 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
-#include <iostream>
-#include <string>
-#include <sstream>
 
 #include "State.hpp"
 #include "RenderSystem.hpp"
@@ -54,13 +51,14 @@ int main(int argc, char *argv[])
     state.SetSystem(&physics);
     
     //test entity: player1
-    LoadModel(&state, "player1", "models/cube.bm");
-    state.AddComponent("player1", new Orientation(glm::vec3(2.0, 0.0, -10.0), glm::vec3(0.0, 1.0, 0.0), 0.01f));
-    state.AddComponent("player1", new Velocity(0.1, 0.1, 0.0));
+    LoadModel(&state, "player1", "models/cube.bm", "images/crate_texture.png");
+    state.AddComponent("player1", new Orientation(glm::vec3(2.0, 0.0, -10.0), glm::vec3(0.0, 1.0, 0.0), 0.001f));
+    state.AddComponent("player1", new Velocity(0.01, 0.01, 0.0));
 
     //test entity: player2
     state.CopyEntity("player1", "player2");
-    state.AddComponent("player2", new Orientation(glm::vec3(-2.0, 0.0, -7.0), glm::vec3(1.0, 1.0, 0.0), 0.01f));
+    state.ChangeComponent("player2", new Orientation(glm::vec3(-2.0, 0.0, -7.0), glm::vec3(1.0, 1.0, 0.0), 0.005f));
+	state.RemoveComponent("player2", COMP_VELOCITY);
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -86,7 +84,9 @@ int main(int argc, char *argv[])
         
         update_frame_time_info();
         double frame_time = get_last_frametime();
-        if(frame_time < minimal_frame_time) {
+
+        if(frame_time < minimal_frame_time) 
+		{
             SDL_Delay(1000.0 * (minimal_frame_time - frame_time));
         }
     }
