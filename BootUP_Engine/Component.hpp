@@ -43,13 +43,20 @@ struct Orientation : public Component
 		this->angle = 0.0;
 		id = COMP_ORI;
 	}
-
 	Orientation(glm::vec3 startingPosition, glm::vec3 startingRotation, float rotationSpeed)
 	{
 		this->position = startingPosition;
 		this->rotation = startingRotation;
 		this->rotationSpeed = rotationSpeed;
 		this->angle = 0.0;
+		id = COMP_ORI;
+	}
+	Orientation(const Orientation& ori)
+	{
+		this->position = ori.position;
+		this->rotation = ori.rotation;
+		this->rotationSpeed = ori.rotationSpeed;
+		this->angle = ori.angle;
 		id = COMP_ORI;
 	}
 
@@ -113,14 +120,6 @@ struct Texture : public Component
 	Texture(std::string path)
 	{
 		texture = LoadPNG(path);
-		id = COMP_TEXTURE;
-	}
-	Texture(const Texture& tex)
-	{
-		texture = tex.texture;
-
-		coords = tex.coords;
-
 		id = COMP_TEXTURE;
 	}
 	virtual ~Texture(){}

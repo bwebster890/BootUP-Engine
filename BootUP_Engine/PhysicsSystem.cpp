@@ -67,14 +67,13 @@ void PhysicsSystem::Update()
 					}
 				}
 			}
-			// If the entitiy has orientation apply velocity.
+			// If the entitiy has orientation apply velocity
 			if (m_orientation != nullptr)
 			{
 				m_velocity = dynamic_cast<Velocity*>(components[i]);
 				
 				// Apply Velocity
 				m_orientation->adjustPosition(m_velocity->velocity);
-				m_orientation->adjustRotation(m_orientation->rotation);
 			}
 		}
 	}

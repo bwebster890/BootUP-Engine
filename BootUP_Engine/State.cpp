@@ -49,32 +49,20 @@ void State::AddComponent(std::string entity, Component* component)
 	component->entity = entity;
 	components.push_back(component);
 
-	if (component->id == COMP_ORI)
+	switch (component->id)
 	{
+	case COMP_ORI:
 		m_render->AddComponent(component);
 		m_physics->AddComponent(component);
-	}
-
-	if (component->id == COMP_VERTICES)
-	{
+	case COMP_VERTICES:
 		m_render->AddComponent(component);
-	}
-
-	if (component->id == COMP_INDICES)
-	{
+	case COMP_TEXTURE:
 		m_render->AddComponent(component);
-	}
-
-	if (component->id == COMP_TEXTURE)
-	{
+	case COMP_INDICES:
 		m_render->AddComponent(component);
-	}
-	if (component->id == COMP_GRAVITY)
-	{
+	case COMP_GRAVITY:
 		m_physics->AddComponent(component);
-	}
-	if (component->id == COMP_VELOCITY)
-	{
+	case COMP_VELOCITY:
 		m_physics->AddComponent(component);
 	}
 }
@@ -88,23 +76,21 @@ void State::ChangeComponent(std::string entity, Component* component)
 			components[i] = component;
 	}
 
-	if (component->id == COMP_ORI)
+	switch (component->id)
 	{
+	case COMP_ORI:
 		m_render->ChangeComponent(entity, component);
-		m_physics->ChangeComponent(entity, component);
-	}
-
-	if (component->id == COMP_TEXTURE)
-	{
-		m_render->ChangeComponent(entity, component);
-	}
-	if (component->id == COMP_GRAVITY)
-	{
-		m_physics->ChangeComponent(entity, component);
-	}
-	if (component->id == COMP_VELOCITY)
-	{
-		m_physics->ChangeComponent(entity, component);
+		m_physics->ChangeComponent(entity, component); break;
+	case COMP_VERTICES:
+		m_render->ChangeComponent(entity, component); break;
+	case COMP_TEXTURE:
+		m_render->ChangeComponent(entity, component); break;
+	case COMP_INDICES:
+		m_render->ChangeComponent(entity, component); break;
+	case COMP_GRAVITY:
+		m_physics->ChangeComponent(entity, component); break;
+	case COMP_VELOCITY:
+		m_physics->ChangeComponent(entity, component); break;
 	}
 }
 void State::RemoveComponent(std::string entity, unsigned id)
@@ -113,22 +99,21 @@ void State::RemoveComponent(std::string entity, unsigned id)
 	{
 		if (components[i]->entity == entity && components[i]->id == id)
 		{
-			if (components[i]->id == COMP_ORI)
+			switch (components[i]->id)
 			{
+			case COMP_ORI:
 				m_render->RemoveComponent(entity, id);
-				m_physics->RemoveComponent(entity, id);
-			}
-			if (components[i]->id == COMP_TEXTURE)
-			{
-				m_render->RemoveComponent(entity, id);
-			}
-			if (components[i]->id == COMP_GRAVITY)
-			{
-				m_physics->RemoveComponent(entity, id);
-			}
-			if (components[i]->id == COMP_VELOCITY)
-			{
-				m_physics->RemoveComponent(entity, id);
+				m_physics->RemoveComponent(entity, id); break;
+			case COMP_VERTICES:
+				m_render->RemoveComponent(entity, id); break;
+			case COMP_TEXTURE:
+				m_render->RemoveComponent(entity, id); break;
+			case COMP_INDICES:
+				m_render->RemoveComponent(entity, id); break;
+			case COMP_GRAVITY:
+				m_physics->RemoveComponent(entity, id); break;
+			case COMP_VELOCITY:
+				m_physics->RemoveComponent(entity, id); break;
 			}
 
 			delete components[i];
@@ -143,29 +128,20 @@ void State::CopyEntity(std::string old_entity, std::string new_entity)
 	{
 		if (components[i]->entity == old_entity)
 		{
-			if (components[i]->id == COMP_ORI)
+			switch (components[i]->id)
 			{
-				AddComponent(new_entity, new Orientation(*dynamic_cast<Orientation*>(components[i])));
-			}
-			if (components[i]->id == COMP_VERTICES)
-			{
-				AddComponent(new_entity, new Vertices(*dynamic_cast<Vertices*>(components[i])));
-			}
-			if (components[i]->id == COMP_INDICES)
-			{
-				AddComponent(new_entity, new Indices(*dynamic_cast<Indices*>(components[i])));
-			}
-			if (components[i]->id == COMP_TEXTURE)
-			{
-				AddComponent(new_entity, new Texture(*dynamic_cast<Texture*>(components[i])));
-			}
-			if (components[i]->id == COMP_GRAVITY)
-			{
-				AddComponent(new_entity, new Gravity(*dynamic_cast<Gravity*>(components[i])));
-			}
-			if (components[i]->id == COMP_VELOCITY)
-			{
-				AddComponent(new_entity, new Velocity(*dynamic_cast<Velocity*>(components[i])));
+			case COMP_ORI:
+				AddComponent(new_entity, new Orientation(*dynamic_cast<Orientation*>(components[i]))); break;
+			case COMP_VERTICES:
+				AddComponent(new_entity, new Vertices(*dynamic_cast<Vertices*>(components[i]))); break;
+			case COMP_TEXTURE:
+				AddComponent(new_entity, new Texture(*dynamic_cast<Texture*>(components[i]))); break;
+			case COMP_INDICES:
+				AddComponent(new_entity, new Indices(*dynamic_cast<Indices*>(components[i]))); break;
+			case COMP_GRAVITY:
+				AddComponent(new_entity, new Gravity(*dynamic_cast<Gravity*>(components[i]))); break;
+			case COMP_VELOCITY:
+				AddComponent(new_entity, new Velocity(*dynamic_cast<Velocity*>(components[i]))); break;
 			}
 		}
 	}
@@ -176,24 +152,21 @@ void State::RemoveEntity(std::string entity)
 	{
 		if (components[i]->entity == entity)
 		{
-			if (components[i]->id == COMP_ORI)
+			switch (components[i]->id)
 			{
+			case COMP_ORI:
 				m_render->RemoveComponent(entity, components[i]->id);
-				m_physics->RemoveComponent(entity, components[i]->id);
-			}
-
-			if (components[i]->id == COMP_TEXTURE)
-			{
-				m_render->RemoveComponent(entity, components[i]->id);
-			}
-
-			if (components[i]->id == COMP_GRAVITY)
-			{
-				m_physics->RemoveComponent(entity, components[i]->id);
-			}
-			if (components[i]->id == COMP_VELOCITY)
-			{
-				m_physics->RemoveComponent(entity, components[i]->id);
+				m_physics->RemoveComponent(entity, components[i]->id); break;
+			case COMP_VERTICES:
+				m_render->RemoveComponent(entity, components[i]->id); break;
+			case COMP_TEXTURE:
+				m_render->RemoveComponent(entity, components[i]->id); break;
+			case COMP_INDICES:
+				m_render->RemoveComponent(entity, components[i]->id); break;
+			case COMP_GRAVITY:
+				m_physics->RemoveComponent(entity, components[i]->id); break;
+			case COMP_VELOCITY:
+				m_physics->RemoveComponent(entity, components[i]->id); break;
 			}
 
 			delete components[i];

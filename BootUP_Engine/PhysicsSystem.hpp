@@ -16,7 +16,7 @@ private:
 
 public:
 	PhysicsSystem();
-	~PhysicsSystem();
+	virtual ~PhysicsSystem();
 
 	void Update();
 	void AddComponent(Component*);

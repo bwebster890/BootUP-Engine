@@ -8,6 +8,8 @@
 #include "State.hpp"
 #include "Component.hpp"
 
+Texture* texture = new Texture;
+
 void LoadModel(State* state, std::string entity, std::string path)
 {
 	std::ifstream modelFile;
@@ -15,7 +17,6 @@ void LoadModel(State* state, std::string entity, std::string path)
 
 	Vertices* vertices = new Vertices;
 	Indices* indices = new Indices;
-	Texture* texture = new Texture;
 
 	float x, y, z;
 	unsigned index;
@@ -49,11 +50,16 @@ void LoadModel(State* state, std::string entity, std::string path)
 		}
 	}
 
-	texture->texture = LoadPNG("images/crate_texture.png");
-
 	state->AddComponent(entity, vertices);
-	state->AddComponent(entity, texture);
 	state->AddComponent(entity, indices);
+}
+
+void LoadModel(State* state, std::string entity, std::string filePath, std::string texturePath)
+{
+	LoadModel(state, entity, filePath);
+
+	texture->texture = LoadPNG(texturePath);
+	state->AddComponent(entity, texture);
 }
 
 #endif//MODEL_LOADER_HPP
