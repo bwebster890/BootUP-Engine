@@ -19,7 +19,9 @@ void LoadModel(State* state, std::string entity, std::string path)
 	Indices* indices = new Indices;
 
 	float x, y, z;
-	unsigned index;
+	unsigned index, vao;
+
+	glGenVertexArrays(1, &vao);
 
 	modelFile.open(path);
 
@@ -34,18 +36,21 @@ void LoadModel(State* state, std::string entity, std::string path)
 			{
 				modelFile >> x >> y >> z;
 				vertices->AddVertex(x, y, z);
+				vertices->vao = vao;
 			}
 
 			if (currentString == "I")
 			{
 				modelFile >> index;
 				indices->AddIndex(index);
+				indices->vao = vao;
 			}
 
 			if (currentString == "T")
 			{
 				modelFile >> x >> y;
 				texture->AddCoords(x, y);
+				texture->vao = vao;
 			}
 		}
 	}

@@ -9,13 +9,11 @@
 #include "ShaderProgram.hpp"
 #include "Utility.hpp"
 
-const static double minimal_frame_time = 1.0 / 60.0;
-
 int main(int argc, char *argv[])
 {
     // initialize all apis, but quit program if any failed
-    SDL_Window *window = 0;
-    SDL_GLContext gl_context = 0;
+    SDL_Window *window = nullptr;
+    SDL_GLContext gl_context;
 
     // Try Version 4.1 else fall back to 3.0
     if (!initialize_apis(&window, &gl_context, 800, 600, 4, 1))
@@ -27,6 +25,7 @@ int main(int argc, char *argv[])
     }
 
     bool is_running = true;
+	const static double minimal_frame_time = 1.0 / 60.0;
 
     State state;
     RenderSystem render;
@@ -52,7 +51,7 @@ int main(int argc, char *argv[])
     
     //test entity: player1
     LoadModel(&state, "player1", "models/cube.bm", "images/crate_texture.png");
-    state.AddComponent("player1", new Orientation(glm::vec3(2.0, 0.0, -10.0), glm::vec3(0.0, 1.0, 0.0), 0.001f));
+    state.AddComponent("player1", new Orientation(glm::vec3(2.0, 0.0, -10.0), glm::vec3(0.0, 1.0, 0.0), 0.01f));
     state.AddComponent("player1", new Velocity(0.01, 0.01, 0.0));
 
     //test entity: player2
@@ -79,6 +78,7 @@ int main(int argc, char *argv[])
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         state.Update();
+		render.Draw();
         
         SDL_GL_SwapWindow(window);
         

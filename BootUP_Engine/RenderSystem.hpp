@@ -35,8 +35,11 @@ public:
 
 	void Update();
 	void AddComponent(Component*);
+
 	void SetCamera(Camera*);
 	void SetShaderProgram(ShaderProgram*);
+
+	void Draw();
 };
 
 #endif//RENDER_SYSTEM_HPP

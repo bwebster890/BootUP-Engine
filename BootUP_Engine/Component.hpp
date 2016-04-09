@@ -79,7 +79,15 @@ struct Vertices : public Component
 	Vertices()
 	{
 		id = COMP_VERTICES;
-		glGenVertexArrays(1, &vao);
+	}
+	Vertices(const Vertices& vertices, unsigned vao)
+	{
+		id = COMP_VERTICES;
+
+		this->vao = vao;
+		vbo = vertices.vbo;
+
+		this->vertices = vertices.vertices;
 	}
 	virtual ~Vertices()
 	{
@@ -97,11 +105,21 @@ struct Vertices : public Component
 
 struct Indices : public Component
 {
+	unsigned ebo, vao;
 	std::vector <unsigned> indices;
 
 	Indices()
 	{
 		id = COMP_INDICES;
+	}
+	Indices(const Indices& indices, unsigned vao)
+	{
+		id = COMP_INDICES;
+
+		this->vao = vao;
+		ebo = indices.ebo;
+
+		this->indices = indices.indices;
 	}
 	virtual ~Indices(){}
 
@@ -111,7 +129,7 @@ struct Indices : public Component
 struct Texture : public Component
 {
 	std::vector <float> coords;
-	unsigned texture, vbo;
+	unsigned texture, vbo, vao;
 
 	Texture()
 	{
@@ -119,8 +137,18 @@ struct Texture : public Component
 	}
 	Texture(std::string path)
 	{
-		texture = LoadPNG(path);
 		id = COMP_TEXTURE;
+		texture = LoadPNG(path);
+	}
+	Texture(const Texture& tex, unsigned vao)
+	{
+		id = COMP_TEXTURE;
+		texture = tex.texture;
+
+		this->vao = vao;
+		vbo = tex.vbo;
+
+		coords = tex.coords;
 	}
 	virtual ~Texture(){}
 
